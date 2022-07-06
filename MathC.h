@@ -15,6 +15,7 @@
 
 #include "../CppBase/BasicTypes.h"
 
+
 // This class is mainly for things from
 // #include <cmath>.  Which is included in the
 // .cpp file.
@@ -25,10 +26,10 @@ class MathC
   private:
 
   public:
-  static Float64 roundDbl( Float64 x );
-  static Int64 round64( Float64 x );
-  static Int32 round32( Float64 x );
-
+  static Float64 roundF64( Float64 x );
+  static Int64 roundI64( Float64 x );
+  static Int32 roundI32( Float64 x );
+  static Float64 sqroot( Float64 x );
 
 
   };

@@ -1,6 +1,9 @@
 // Copyright Eric Chauvin 2022.
 
 
+/*
+This is only partially translated to C++ from
+my C# code.
 
 // This is licensed under the GNU General
 // Public License (GPL).  It is the
@@ -35,7 +38,7 @@ class Quaternion
   Float64 Z;
   Float64 W;
 
-  inline void setToOne()
+  inline void setToOne( void )
     {
     X = 0;
     Y = 0;
@@ -45,79 +48,76 @@ class Quaternion
 
 
 
-  internal static QuaternionRec SetZero()
+  inline void setToZero( void )
     {
-    QuaternionRec Result;
-    Result.X = 0;
-    Result.Y = 0;
-    Result.Z = 0;
-    Result.W = 0;
-    return Result;
+    X = 0;
+    Y = 0;
+    Z = 0;
+    W = 0;
     }
 
 
 
-  internal static QuaternionRec Negate( QuaternionRec Result )
+  inline void negate( void  )
     {
-    Result.X = -Result.X;
-    Result.Y = -Result.Y;
-    Result.Z = -Result.Z;
-    Result.W = -Result.W;
-    return Result;
+    X = -X;
+    Y = -Y;
+    Z = -Z;
+    W = -W;
     }
 
 
 
 
-  internal static QuaternionRec Add( QuaternionRec Result, QuaternionRec In )
+  inline void add( Quaternion& toAdd )
     {
-    Result.X += In.X;
-    Result.Y += In.Y;
-    Result.Z += In.Z;
-    Result.W += In.W;
-    return Result;
+    X += toAdd.X;
+    Y += toAdd.Y;
+    Z += toAdd.Z;
+    W += toAdd.W;
     }
 
 
 
-  internal static double NormSquared( QuaternionRec In )
+  inline Float64 normSquared( Quaternion& in )
     {
-    double NS = (In.X * In.X) +
-                (In.Y * In.Y) +
-                (In.Z * In.Z) +
-                (In.W * In.W);
+    Float64 result = (in.X * in.X) +
+                     (in.Y * in.Y) +
+                     (in.Z * in.Z) +
+                     (in.W * in.W);
 
-    return NS;
+    return result;
     }
 
 
 
-  internal static double Norm( QuaternionRec In )
+  inline Float64 norm( Quaternion& in )
     {
-    double NSquared = NormSquared( In );
-    return Math.Sqrt( NSquared );
+    Float64 nSquared = normSquared( in );
+    return MathC::sqroot( nSquared );
     }
 
 
 
-  internal static QuaternionRec Normalize( QuaternionRec In )
+  static inline void normalize( Quaternion& in )
     {
-    double Length = Norm( In );
-    if( Length < 0.000000000000000001d )
-      return SetZero();
-      // throw( new Exception( "Length is too small in QuaternionEC.Normalize()." ));
+    Float64 length = norm( In );
+    if( length < 0.000000000000000000000000000001d )
+      {
+      in.setToZero();
+      return;
+      }
 
-    double Inverse = 1.0d / Length;
+    Float64 inverse = 1.0d / length;
 
-    QuaternionRec Result;
-    Result.X = In.X * Inverse;
-    Result.Y = In.Y * Inverse;
-    Result.Z = In.Z * Inverse;
-    Result.W = In.W * Inverse;
-    return Result;
+    in.X = in.X * inverse;
+    in.Y = in.Y * inverse;
+    in.Z = in.Z * inverse;
+    in.W = in.W * inverse;
     }
 
 
+=========
 
   internal static bool DoubleIsAlmostEqual( double A, double B, double SmallNumber )
     {
@@ -189,17 +189,17 @@ class Quaternion
     }
 
 
-/*
-Partial Differential equations were around for about a couple
-of centuries before quaternions.
-The original meaining of the phrase Cross Product is with
-differentials like dxdy as opposed to dx squared.  And it
-has to do with the Metric ds squared.
-(a + b + c)(a + b + c)
-aa + ab + ac + and so on...
-aa is not a cross product.
-ab  and ac are cross products.
-*/
+// Partial Differential equations were around for
+// about a couple of centuries before quaternions.
+// The original meaining of the phrase Cross
+// Product is with differentials like dxdy as
+// opposed to dx squared.  And it has to do with
+// the Metric ds squared.
+// (a + b + c)(a + b + c)
+// aa + ab + ac + and so on...
+// aa is not a cross product.
+// ab  and ac are cross products.
+
 
   internal static QuaternionRec CrossProduct(
                                  QuaternionRec Left,
@@ -360,7 +360,8 @@ ab  and ac are cross products.
     return Result;
     }
 
-
+Since it's taking the sin and cos of the angle
+... what about Earth and 24 hour time?
 
   internal static QuaternionRec SetAsRotation(
                                  QuaternionRec Axis,
@@ -449,3 +450,5 @@ ab  and ac are cross products.
 
   }
 }
+
+*/
